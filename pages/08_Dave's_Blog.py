@@ -14,8 +14,7 @@ st.markdown("""
         background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
                           radial-gradient(1.5px 1.5px at 40px 70px, rgba(255,255,255,0.95), transparent),
                           radial-gradient(1px 1px at 90px 40px, #aaddff, transparent),
-                          radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent),
-                          radial-gradient(1px 1px at 300px 100px, #ffffff, transparent);
+                          radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent);
         background-size: 500px 300px; background-repeat: repeat; opacity: 0.7; z-index: 0; pointer-events: none;
     }
     .stApp::after {
@@ -27,10 +26,11 @@ st.markdown("""
     .main .block-container { position: relative; z-index: 1; }
     h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
     .stApp, p, span, div, label { color: #ffffff !important; }
-    .stForm, .stForm *, div[data-testid="stVerticalBlockBorderWrapper"] * { color: #000000 !important; }
+    .stButton > button { background: linear-gradient(90deg, #00f0ff, #0099cc) !important; color: #0a1325 !important; font-weight: 700; border-radius: 8px; }
+    .stButton > button:hover { background: linear-gradient(90deg, #ff7700, #ffaa00) !important; color: white !important; }
+    .stTextInput input, .stTextArea textarea { background-color: #0f2344 !important; color: #ffffff !important; border: 1px solid #00f0ff66 !important; }
+    div[data-testid="stVerticalBlockBorderWrapper"] * { color: #000000 !important; }
     section[data-testid="stSidebar"] { background: #05080f !important; }
-    .stButton > button { background: linear-gradient(90deg, #00f0ff, #0099cc); color: #0a1325; font-weight: 700; border-radius: 8px; }
-    .stButton > button:hover { background: linear-gradient(90deg, #ff7700, #ffaa00); color: white; }
 </style>
 """, unsafe_allow_html=True)
 
