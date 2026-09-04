@@ -15,43 +15,64 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 st.markdown("""
 <style>
     .stApp {
-        background: #0a1325;
+        background: #05080f;
         color: #ffffff;
-        position: relative;
+        overflow: hidden;
     }
     
-    /* Deep Space Background with Stars & Nebula */
+    /* Deep Space + Nebula */
     .stApp::before {
         content: '';
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        background: 
-            radial-gradient(circle at 20% 30%, rgba(100, 200, 255, 0.12) 0%, transparent 50%),
-            radial-gradient(circle at 70% 60%, rgba(180, 100, 255, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 40% 80%, rgba(0, 229, 255, 0.10) 0%, transparent 60%);
+        background: radial-gradient(circle at 30% 20%, rgba(0, 240, 255, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 70%, rgba(180, 80, 255, 0.12) 0%, transparent 60%),
+                    radial-gradient(circle at 20% 80%, rgba(0, 180, 255, 0.10) 0%, transparent 70%);
         z-index: -2;
     }
     
-    /* Starfield */
+    /* Dense Starfield */
     .stApp::after {
         content: '';
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
         background-image: 
-            radial-gradient(white 1px, transparent 1px),
-            radial-gradient(white 1px, transparent 1px),
-            radial-gradient(#bbeeff 1px, transparent 2px);
-        background-size: 80px 80px, 150px 150px, 220px 220px;
-        background-position: 0 0, 40px 70px, 90px 30px;
-        opacity: 0.35;
+            radial-gradient(#ffffff 1px, transparent 1px),
+            radial-gradient(#ffffff 1px, transparent 1px),
+            radial-gradient(#88ddff 1px, transparent 2px),
+            radial-gradient(#ffddaa 1px, transparent 2px);
+        background-size: 70px 70px, 120px 120px, 180px 180px, 250px 250px;
+        background-position: 0 0, 35px 55px, 80px 30px, 120px 90px;
+        opacity: 0.45;
         z-index: -1;
         pointer-events: none;
     }
 
+    /* Radio Wave Effect */
+    .radio-waves {
+        position: fixed;
+        top: 15%;
+        right: 10%;
+        width: 180px;
+        height: 180px;
+        border: 2px solid rgba(0, 240, 255, 0.15);
+        border-radius: 50%;
+        animation: pulse 8s infinite ease-in-out;
+        z-index: -1;
+        opacity: 0.3;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(0.8); opacity: 0.2; }
+        50% { transform: scale(1.3); opacity: 0.4; }
+        100% { transform: scale(0.8); opacity: 0.2; }
+    }
+
     h1, h2, h3, h4 {
         color: #00f0ff !important;
+        text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
     }
     
     .stApp, p, span, div, label, .stMarkdown {
@@ -59,40 +80,36 @@ st.markdown("""
     }
     
     section[data-testid="stSidebar"] {
-        background: #0a1325;
-        border-right: 2px solid #00f0ff33;
+        background: #05080f;
+        border-right: 3px solid #00f0ff33;
     }
     
     div[data-testid="stMetric"] {
-        background: #132b4f;
-        border: 1px solid #00f0ff44;
+        background: #0f2344;
+        border: 1px solid #00f0ff55;
         border-radius: 12px;
     }
     
     .stButton > button {
-        background: linear-gradient(90deg, #00f0ff, #00b8d4);
-        color: #0b1f3d;
+        background: linear-gradient(90deg, #00f0ff, #0099cc);
+        color: #0a1325;
         font-weight: 700;
         border-radius: 8px;
     }
     .stButton > button:hover {
-        background: linear-gradient(90deg, #ff8c00, #ffaa33);
+        background: linear-gradient(90deg, #ff7700, #ffaa00);
         color: white;
     }
     
-    .stTextInput input, .stTextArea textarea, .stSelectbox, .stNumberInput {
-        background-color: #132b4f !important;
+    .stTextInput input, .stTextArea textarea {
+        background-color: #0f2344 !important;
         color: #ffffff !important;
-        border: 1px solid #00f0ff55 !important;
-    }
-    
-    .stCaption {
-        color: #a8c8ff !important;
+        border: 1px solid #00f0ff66 !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Logo in top-left corner
+# Logo
 col1, col2, col3 = st.columns([1.2, 3, 1])
 with col1:
     if LOGO_PATH.exists():
@@ -100,17 +117,18 @@ with col1:
     else:
         st.markdown("**📡 Dave's Ham**")
 
+st.markdown('<div class="radio-waves"></div>', unsafe_allow_html=True)
 st.markdown("---")
 
 st.title("Welcome to Dave's Ham Radio Portal")
-st.caption("Real-time tools for amateur radio operators, students & clubs")
+st.caption("📡 Connecting the world through the airwaves — from Earth to the cosmos")
 
 @st.cache_data(ttl=300)
 def fetch_solar_indices():
     try:
-        k = requests.get("https://services.swpc.noaa.gov/json/planetary_k_index_1m.json", timeout=8).json()
-        flux = requests.get("https://services.swpc.noaa.gov/json/f107_cm_flux.json", timeout=8).json()
-        daily = requests.get("https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json", timeout=8).json()
+        k = requests.get("https://services.swpc.noaa.gov/json/planetary_k_index_1m.json", timeout=10).json()
+        flux = requests.get("https://services.swpc.noaa.gov/json/f107_cm_flux.json", timeout=10).json()
+        daily = requests.get("https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json", timeout=10).json()
         
         return {
             "sfi": flux[-1].get("flux", "—") if flux else "—",
@@ -130,16 +148,15 @@ c3.metric("A-Index", solar["a_index"])
 c4.metric("Sunspot Number", solar["ssn"])
 
 st.markdown("---")
-st.subheader("Quick Navigation")
+st.subheader("📡 Quick Navigation")
 st.markdown("""
-Use the sidebar to explore:
-- ☀️ Space Weather & Propagation  
-- 📡 DX / POTA / APRS Activity  
-- 📶 Repeaters & Digital Modes  
-- 🪪 Callsign & License Tools  
-- 🚨 Emergency Comms & Club  
-- 🔧 Calculators & Technical  
-- 📝 Dave's Blog
+- ☀️ **Space Weather & Propagation**  
+- 📡 **DX / POTA / APRS Activity**  
+- 📶 **Repeaters & Digital Modes**  
+- 🪪 **Callsign & License Tools**  
+- 🚨 **Emergency Comms & Club**  
+- 🔧 **Calculators & Technical**  
+- 📝 **Dave's Blog**
 """)
 
-st.caption(f"Last updated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M')} UTC • Data from NOAA SWPC")
+st.caption(f"Last updated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M')} UTC • Powered by the Ionosphere")
