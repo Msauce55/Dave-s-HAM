@@ -7,7 +7,8 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 st.markdown("""
 <style>
     .stApp { background-color: #05080f !important; color: #ffffff; }
-    [data-testid="stAppViewContainer"], .main { background: transparent !important; }
+    [data-testid="stAppViewContainer"], [data-testid="stHeader"], .main { background: transparent !important; }
+
     .stApp::before {
         content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
@@ -23,10 +24,17 @@ st.markdown("""
         z-index: 0; pointer-events: none;
     }
     .main .block-container { position: relative; z-index: 1; }
-    h1, h2, h3 { color: #00f0ff !important; }
-    .stApp, p, span, div, label { color: #ffffff !important; }
-    section[data-testid="stSidebar"] { background: #05080f !important; }
-    table { color: #000000 !important; }
+
+    h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
+    .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
+
+    /* TABLES - black text */
+    table, th, td, .stMarkdown table, .stMarkdown th, .stMarkdown td {
+        color: #000000 !important;
+        background-color: #f0f4f8 !important;
+    }
+
+    section[data-testid="stSidebar"] { background: #05080f !important; border-right: 2px solid #00f0ff33; }
 </style>
 """, unsafe_allow_html=True)
 

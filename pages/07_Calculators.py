@@ -8,7 +8,8 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 st.markdown("""
 <style>
     .stApp { background-color: #05080f !important; color: #ffffff; }
-    [data-testid="stAppViewContainer"], .main { background: transparent !important; }
+    [data-testid="stAppViewContainer"], [data-testid="stHeader"], .main { background: transparent !important; }
+
     .stApp::before {
         content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
@@ -24,14 +25,39 @@ st.markdown("""
         z-index: 0; pointer-events: none;
     }
     .main .block-container { position: relative; z-index: 1; }
-    h1, h2, h3 { color: #00f0ff !important; }
-    .stApp, p, span, div, label { color: #ffffff !important; }
-    .stButton > button { background: linear-gradient(90deg, #00f0ff, #0099cc) !important; color: #0a1325 !important; font-weight: 700; border-radius: 8px; }
-    .stButton > button:hover { background: linear-gradient(90deg, #ff7700, #ffaa00) !important; color: white !important; }
-    .stSelectbox select, .stNumberInput input, .stTextInput input {
-        background-color: #0f2344 !important; color: #ffffff !important; border: 1px solid #00f0ff66 !important;
+
+    h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
+    .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
+
+    /* SELECTBOX / DROPDOWN FIX */
+    .stSelectbox > div > div, .stSelectbox [data-baseweb="select"] > div {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+        border: 1px solid #00f0ff66 !important;
     }
-    section[data-testid="stSidebar"] { background: #05080f !important; }
+    [data-baseweb="popover"] div, [data-baseweb="menu"], [data-baseweb="menu"] li {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+    }
+
+    .stTextInput input, .stNumberInput input, .stTextArea textarea {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+        border: 1px solid #00f0ff66 !important;
+    }
+
+    .stButton > button {
+        background: linear-gradient(90deg, #00d4ff, #0099cc) !important;
+        color: #03101f !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+    }
+    .stButton > button:hover {
+        background: linear-gradient(90deg, #ff8c00, #ffaa00) !important;
+        color: white !important;
+    }
+
+    section[data-testid="stSidebar"] { background: #05080f !important; border-right: 2px solid #00f0ff33; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -50,6 +76,8 @@ if calc == "Half-wave Dipole":
     length = 468 / freq
     st.metric("Total length", f"{length:.2f} ft")
     st.metric("Each leg", f"{length/2:.2f} ft")
+    st.caption("Formula: 468 / f (MHz)")
+
 elif calc == "Simple Yagi Estimate":
     freq = st.number_input("Frequency (MHz)", 50.0, 1300.0, 146.0)
     elems = st.slider("Elements", 3, 8, 3)
@@ -60,6 +88,7 @@ elif calc == "Simple Yagi Estimate":
         "Director": round(wl * 0.45 * 3.28084, 2),
         "Boom approx": round(wl * 0.3 * (elems-1) * 3.28084, 2)
     })
+
 elif calc == "Coax Loss":
     freq = st.number_input("Frequency (MHz)", 1.0, 1300.0, 146.0)
     length = st.number_input("Length (ft)", 1.0, 500.0, 50.0)
@@ -67,6 +96,7 @@ elif calc == "Coax Loss":
     loss100 = {"RG-58": 4.5, "RG-8X": 3.0, "RG-213 / LMR-400": 1.5, "LMR-600": 0.9}[cable]
     loss = (loss100 / 100) * length * math.sqrt(freq / 100)
     st.metric("Approx loss", f"{loss:.2f} dB")
+
 else:
     freq = st.number_input("Frequency (MHz)", 0.1, 3000.0, 14.2)
     wl_m = 300 / freq

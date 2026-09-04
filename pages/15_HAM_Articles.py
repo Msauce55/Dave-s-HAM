@@ -7,7 +7,8 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 st.markdown("""
 <style>
     .stApp { background-color: #05080f !important; color: #ffffff; }
-    [data-testid="stAppViewContainer"], .main { background: transparent !important; }
+    [data-testid="stAppViewContainer"], [data-testid="stHeader"], .main { background: transparent !important; }
+
     .stApp::before {
         content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
@@ -23,18 +24,35 @@ st.markdown("""
         z-index: 0; pointer-events: none;
     }
     .main .block-container { position: relative; z-index: 1; }
+
     h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
-    .stApp, p, span, div, label { color: #ffffff !important; }
-    .stButton > button {
-        background: linear-gradient(90deg, #00f0ff, #0099cc) !important;
-        color: #0a1325 !important;
-        font-weight: 700; border-radius: 8px; width: 100%;
+    .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
+
+    /* LINK BUTTONS */
+    div[data-testid="stLinkButton"] > a {
+        background: linear-gradient(90deg, #00d4ff, #0099cc) !important;
+        color: #03101f !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+        width: 100%;
     }
-    .stButton > button:hover {
-        background: linear-gradient(90deg, #ff7700, #ffaa00) !important;
+    div[data-testid="stLinkButton"] > a:hover {
+        background: linear-gradient(90deg, #ff8c00, #ffaa00) !important;
         color: white !important;
     }
-    section[data-testid="stSidebar"] { background: #05080f !important; }
+
+    .stButton > button {
+        background: linear-gradient(90deg, #00d4ff, #0099cc) !important;
+        color: #03101f !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+    }
+    .stButton > button:hover {
+        background: linear-gradient(90deg, #ff8c00, #ffaa00) !important;
+        color: white !important;
+    }
+
+    section[data-testid="stSidebar"] { background: #05080f !important; border-right: 2px solid #00f0ff33; }
 </style>
 """, unsafe_allow_html=True)
 
