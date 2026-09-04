@@ -23,17 +23,20 @@ st.markdown("""
     h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
     .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
 
-    /* SELECTBOX / DROPDOWN - STRONG FIX */
-    .stSelectbox > div > div,
-    .stSelectbox [data-baseweb="select"] > div {
+    /* STRONGER DROPDOWN FIX */
+    div[data-baseweb="select"] {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+    }
+    div[data-baseweb="select"] > div {
         background-color: #0f2344 !important;
         color: #ffffff !important;
         border: 1px solid #00f0ff88 !important;
     }
-    [data-baseweb="popover"],
-    [data-baseweb="menu"],
+    [data-baseweb="popover"] div, 
+    [data-baseweb="menu"], 
     [data-baseweb="menu"] li,
-    [data-baseweb="menu"] div {
+    [data-baseweb="menu"] ul {
         background-color: #0f2344 !important;
         color: #ffffff !important;
     }

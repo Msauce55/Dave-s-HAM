@@ -23,7 +23,7 @@ st.markdown("""
     h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
     .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
 
-    /* SELECTBOX / DROPDOWN */
+    /* DROPDOWN FIX */
     .stSelectbox > div > div,
     .stSelectbox [data-baseweb="select"] > div {
         background-color: #0f2344 !important;
@@ -35,21 +35,22 @@ st.markdown("""
         color: #ffffff !important;
     }
 
-    .stTextInput input, .stNumberInput input, .stTextArea textarea {
-        background-color: #0f2344 !important;
-        color: #ffffff !important;
-        border: 1px solid #00f0ff66 !important;
-    }
-
-    .stButton > button {
+    /* BUTTON FIX */
+    .stButton > button, button[kind="secondary"] {
         background: linear-gradient(90deg, #00d4ff, #0099cc) !important;
         color: #03101f !important;
         font-weight: 700 !important;
         border-radius: 8px !important;
     }
-    .stButton > button:hover {
+    .stButton > button:hover, button[kind="secondary"]:hover {
         background: linear-gradient(90deg, #ff8c00, #ffaa00) !important;
         color: white !important;
+    }
+
+    .stTextInput input, .stNumberInput input, .stTextArea textarea {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+        border: 1px solid #00f0ff66 !important;
     }
 
     section[data-testid="stSidebar"] { background: #05080f !important; border-right: 2px solid #00f0ff33; }
@@ -78,7 +79,7 @@ with st.form("log_form", clear_on_submit=True):
     with c3:
         rst_rcvd = st.text_input("RST Received", "59")
         notes = st.text_input("Notes")
-
+    
     if st.form_submit_button("Add QSO"):
         if call:
             st.session_state.logbook.insert(0, {
