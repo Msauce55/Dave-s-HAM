@@ -30,7 +30,8 @@ st.markdown("""
     .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
 
     /* TABLES - black text */
-    table, th, td, .stMarkdown table, .stMarkdown th, .stMarkdown td {
+    table, th, td, .stMarkdown table, .stMarkdown th, .stMarkdown td,
+    [data-testid="stDataFrame"], [data-testid="stDataFrame"] * {
         color: #000000 !important;
         background-color: #f0f4f8 !important;
     }
