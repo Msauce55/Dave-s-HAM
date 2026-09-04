@@ -8,18 +8,51 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 st.markdown("""
 <style>
     .stApp { background-color: #05080f !important; color: #ffffff; }
-    [data-testid="stAppViewContainer"], .main { background: transparent !important; }
+    [data-testid="stAppViewContainer"], [data-testid="stHeader"], .main { background: transparent !important; }
+
     .stApp::before {
         content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
-                          radial-gradient(1.5px 1.5px at 40px 70px, rgba(255,255,255,0.95), transparent);
+                          radial-gradient(1.5px 1.5px at 40px 70px, rgba(255,255,255,0.95), transparent),
+                          radial-gradient(1px 1px at 90px 40px, #aaddff, transparent),
+                          radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent);
         background-size: 500px 300px; background-repeat: repeat; opacity: 0.7; z-index: 0; pointer-events: none;
     }
     .main .block-container { position: relative; z-index: 1; }
-    h1, h2, h3 { color: #00f0ff !important; }
-    .stApp, p, span, div, label { color: #ffffff !important; }
-    .stButton > button { background: linear-gradient(90deg, #00f0ff, #0099cc) !important; color: #0a1325 !important; }
-    section[data-testid="stSidebar"] { background: #05080f !important; }
+
+    h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
+    .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
+
+    /* SELECTBOX / DROPDOWN */
+    .stSelectbox > div > div,
+    .stSelectbox [data-baseweb="select"] > div {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+        border: 1px solid #00f0ff88 !important;
+    }
+    [data-baseweb="popover"], [data-baseweb="menu"], [data-baseweb="menu"] li {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+    }
+
+    .stTextInput input {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+        border: 1px solid #00f0ff66 !important;
+    }
+
+    .stButton > button {
+        background: linear-gradient(90deg, #00d4ff, #0099cc) !important;
+        color: #03101f !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+    }
+    .stButton > button:hover {
+        background: linear-gradient(90deg, #ff8c00, #ffaa00) !important;
+        color: white !important;
+    }
+
+    section[data-testid="stSidebar"] { background: #05080f !important; border-right: 2px solid #00f0ff33; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -36,9 +69,9 @@ MORSE = {
     'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
     'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
     'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
-    'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
-    '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
-    '8': '---..', '9': '----.'
+    'Y': '-.--', 'Z': '--..',
+    '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-',
+    '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.'
 }
 
 st.subheader("Letter → Morse")
@@ -58,3 +91,4 @@ if st.button("Check"):
     else:
         st.error(f"Wrong. It was **{st.session_state.morse_quiz}**")
     st.session_state.morse_quiz = random.choice(list(MORSE.keys()))
+    st.rerun()
