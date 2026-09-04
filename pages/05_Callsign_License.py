@@ -8,7 +8,8 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 st.markdown("""
 <style>
     .stApp { background-color: #05080f !important; color: #ffffff; }
-    [data-testid="stAppViewContainer"], .main { background: transparent !important; }
+    [data-testid="stAppViewContainer"], [data-testid="stHeader"], .main { background: transparent !important; }
+
     .stApp::before {
         content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
@@ -24,13 +25,45 @@ st.markdown("""
         z-index: 0; pointer-events: none;
     }
     .main .block-container { position: relative; z-index: 1; }
-    h1, h2, h3 { color: #00f0ff !important; }
-    .stApp, p, span, div, label { color: #ffffff !important; }
-    .stButton > button { background: linear-gradient(90deg, #00f0ff, #0099cc) !important; color: #0a1325 !important; font-weight: 700; border-radius: 8px; }
-    .stButton > button:hover { background: linear-gradient(90deg, #ff7700, #ffaa00) !important; color: white !important; }
-    .stTextInput input, .stSelectbox select { background-color: #0f2344 !important; color: #ffffff !important; border: 1px solid #00f0ff66 !important; }
-    [data-testid="stDataFrame"] *, table, th, td { color: #000000 !important; }
-    section[data-testid="stSidebar"] { background: #05080f !important; }
+
+    h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
+    .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
+
+    /* TABLES - black text */
+    table, th, td, .stMarkdown table, .stMarkdown th, .stMarkdown td {
+        color: #000000 !important;
+        background-color: #f0f4f8 !important;
+    }
+
+    /* SELECTBOX / DROPDOWN */
+    .stSelectbox > div > div, .stSelectbox [data-baseweb="select"] > div {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+        border: 1px solid #00f0ff66 !important;
+    }
+    [data-baseweb="popover"] div, [data-baseweb="menu"], [data-baseweb="menu"] li {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+    }
+
+    .stTextInput input, .stNumberInput input, .stTextArea textarea {
+        background-color: #0f2344 !important;
+        color: #ffffff !important;
+        border: 1px solid #00f0ff66 !important;
+    }
+
+    .stButton > button {
+        background: linear-gradient(90deg, #00d4ff, #0099cc) !important;
+        color: #03101f !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+    }
+    .stButton > button:hover {
+        background: linear-gradient(90deg, #ff8c00, #ffaa00) !important;
+        color: white !important;
+    }
+
+    section[data-testid="stSidebar"] { background: #05080f !important; border-right: 2px solid #00f0ff33; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -73,9 +106,11 @@ with tab2:
         st.session_state.q_idx = 0
         st.session_state.score = 0
         st.session_state.total = 0
+
     q = questions[st.session_state.q_idx % len(questions)]
     st.write(f"**Question:** {q['q']}")
     choice = st.radio("Answer", q["choices"], key=f"q{st.session_state.q_idx}")
+
     if st.button("Check Answer"):
         st.session_state.total += 1
         if q["choices"].index(choice) == q["answer"]:
@@ -83,9 +118,11 @@ with tab2:
             st.session_state.score += 1
         else:
             st.error(f"Wrong. Correct: {q['choices'][q['answer']]}")
+
     if st.button("Next Question"):
         st.session_state.q_idx += 1
         st.rerun()
+
     if st.session_state.total:
         st.metric("Score", f"{st.session_state.score}/{st.session_state.total}")
 
