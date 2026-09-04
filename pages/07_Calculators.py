@@ -18,24 +18,22 @@ st.markdown("""
                           radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent);
         background-size: 500px 300px; background-repeat: repeat; opacity: 0.7; z-index: 0; pointer-events: none;
     }
-    .stApp::after {
-        content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle at 20% 30%, rgba(0,200,255,0.12) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 70%, rgba(140,60,255,0.10) 0%, transparent 55%);
-        z-index: 0; pointer-events: none;
-    }
     .main .block-container { position: relative; z-index: 1; }
 
     h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
     .stApp, p, span, div, label, .stMarkdown { color: #ffffff !important; }
 
-    /* SELECTBOX / DROPDOWN */
-    .stSelectbox > div > div, .stSelectbox [data-baseweb="select"] > div {
+    /* SELECTBOX / DROPDOWN - STRONG FIX */
+    .stSelectbox > div > div,
+    .stSelectbox [data-baseweb="select"] > div {
         background-color: #0f2344 !important;
         color: #ffffff !important;
-        border: 1px solid #00f0ff66 !important;
+        border: 1px solid #00f0ff88 !important;
     }
-    [data-baseweb="popover"] div, [data-baseweb="menu"], [data-baseweb="menu"] li {
+    [data-baseweb="popover"],
+    [data-baseweb="menu"],
+    [data-baseweb="menu"] li,
+    [data-baseweb="menu"] div {
         background-color: #0f2344 !important;
         color: #ffffff !important;
     }
