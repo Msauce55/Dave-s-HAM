@@ -3,7 +3,11 @@ import requests
 from datetime import datetime
 from pathlib import Path
 
-# ---------- Page Config ----------
+import streamlit as st
+from pathlib import Path
+from datetime import datetime
+
+# Page Config
 st.set_page_config(
     page_title="Dave's Ham",
     page_icon="📡",
@@ -11,82 +15,94 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ---------- Logo + Theme Colors (from the emblem) ----------
+# Logo Path
 LOGO_PATH = Path("assets/daves_ham_logo.png")
 
+# Improved CSS with lighter blue and starfield background
 st.markdown("""
 <style>
-    /* Main background - deep navy from the logo */
+    /* Starfield Background */
     .stApp {
-        background: linear-gradient(180deg, #0a1628 0%, #0d1f3c 50%, #0a1628 100%);
+        background: radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(255, 107, 0, 0.06) 0%, transparent 50%),
+                    #0b1426;
+        background-attachment: fixed;
         color: #e0f7ff;
+    }
+
+    /* Add subtle stars */
+    .stApp::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        background-image: 
+            radial-gradient(white, rgba(255,255,255,0.9) 1px, transparent 0),
+            radial-gradient(white, rgba(255,255,255,0.8) 1px, transparent 0);
+        background-size: 80px 80px, 120px 120px;
+        background-position: 0 0, 40px 60px;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* Logo area */
+    .logo-container {
+        padding: 1rem 0 0.5rem 1.5rem;
+    }
+
+    /* Lighter, more visible blue */
+    h1, h2, h3, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        color: #00e5ff !important;
     }
 
     /* Sidebar */
     section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #07101f 0%, #0d1f3c 100%);
-        border-right: 1px solid #00c4ff33;
+        background: #08101f;
+        border-right: 2px solid #00e5ff33;
     }
 
-    /* Headers */
-    h1, h2, h3 {
-        color: #00c4ff !important;
-    }
-
-    /* Metrics */
+    /* Cards & Metrics */
     div[data-testid="stMetric"] {
         background: #13233f;
-        border: 1px solid #00c4ff44;
+        border: 1px solid #00e5ff44;
         border-radius: 12px;
-        padding: 12px;
     }
 
     /* Buttons */
     .stButton > button {
-        background: linear-gradient(90deg, #00c4ff, #0090cc);
-        color: #0a1628;
+        background: linear-gradient(90deg, #00e5ff, #00b8cc);
+        color: #0b1426;
         font-weight: 700;
         border: none;
         border-radius: 8px;
     }
     .stButton > button:hover {
-        background: linear-gradient(90deg, #ff6b00, #ff8c00);
+        background: linear-gradient(90deg, #ff7b00, #ff9d33);
         color: white;
     }
 
-    /* Forms & inputs */
+    /* Input fields */
     .stTextInput input, .stTextArea textarea, .stSelectbox, .stNumberInput {
         background-color: #13233f !important;
         color: #e0f7ff !important;
-        border: 1px solid #00c4ff55 !important;
-    }
-
-    /* Dataframes */
-    .stDataFrame {
-        background-color: #0d1f3c;
-    }
-
-    /* Success / Warning boxes */
-    .stSuccess {
-        background-color: #0d3320;
-        border-left: 5px solid #00c4ff;
-    }
-    .stWarning {
-        background-color: #3d2200;
-        border-left: 5px solid #ff6b00;
-    }
-
-    /* Caption / secondary text */
-    .stCaption, small {
-        color: #7dd3fc !important;
-    }
-
-    /* Divider */
-    hr {
-        border-color: #00c4ff33;
+        border: 1px solid #00e5ff55 !important;
     }
 </style>
 """, unsafe_allow_html=True)
+
+# ========== Smaller Logo in Top-Left Corner ==========
+col1, col2, col3 = st.columns([1.2, 3, 1])
+with col1:
+    if LOGO_PATH.exists():
+        st.image(str(LOGO_PATH), width=180)   # Smaller size - adjust as needed
+    else:
+        st.markdown("**📡 Dave's Ham**")
+
+st.markdown("---")
 
 # ---------- Logo Header ----------
 col1, col2, col3 = st.columns([1, 2, 1])
