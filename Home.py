@@ -106,12 +106,6 @@ st.markdown("---")
 
 # ---------- Logo Header ----------
 col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), use_container_width=True)
-    else:
-        st.markdown("### 📡 Dave's Ham Amateur Radio")
-        st.caption("Logo not found – place it in assets/daves_ham_logo.png")
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.set_page_config(
