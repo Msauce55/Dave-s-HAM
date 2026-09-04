@@ -7,8 +7,13 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 
 st.markdown("""
 <style>
-    .stApp { background-color: #05080f !important; color: #ffffff; }
-    [data-testid="stAppViewContainer"], .main { background: transparent !important; }
+    .stApp { 
+        background-color: #05080f !important; 
+        color: #ffffff; 
+    }
+    [data-testid="stAppViewContainer"], .main { 
+        background: transparent !important; 
+    }
     .stApp::before {
         content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
@@ -17,13 +22,27 @@ st.markdown("""
         background-size: 500px 300px; background-repeat: repeat; opacity: 0.7; z-index: 0; pointer-events: none;
     }
     .main .block-container { position: relative; z-index: 1; }
+
     h1, h2, h3 { color: #00f0ff !important; }
     .stApp, p, span, div, label { color: #ffffff !important; }
+
+    /* ===== FIX FOR CODE BLOCKS ===== */
+    .stCodeBlock, pre, code {
+        background-color: #0f2344 !important;
+        color: #00f0ff !important;
+        border: 1px solid #00f0ff55 !important;
+        border-radius: 8px !important;
+        font-size: 1.4rem !important;
+        font-weight: bold !important;
+        padding: 12px !important;
+    }
+
     .stTextInput input {
         background-color: #0f2344 !important;
         color: #ffffff !important;
         border: 1px solid #00f0ff66 !important;
     }
+
     .stButton > button {
         background: linear-gradient(90deg, #00d4ff, #0099cc) !important;
         color: #03101f !important;
@@ -34,7 +53,10 @@ st.markdown("""
         background: linear-gradient(90deg, #ff8c00, #ffaa00) !important;
         color: white !important;
     }
-    section[data-testid="stSidebar"] { background: #05080f !important; }
+
+    section[data-testid="stSidebar"] { 
+        background: #05080f !important; 
+    }
 </style>
 """, unsafe_allow_html=True)
 
