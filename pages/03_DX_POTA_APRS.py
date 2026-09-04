@@ -7,23 +7,28 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 
 st.markdown("""
 <style>
-    .stApp { background: #05080f; color: #ffffff; }
+    .stApp { background-color: #05080f !important; color: #ffffff; }
+    [data-testid="stAppViewContainer"], .main { background: transparent !important; }
     .stApp::before {
-        content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle at 30% 20%, rgba(0,240,255,0.12) 0%, transparent 50%),
-                    radial-gradient(circle at 70% 70%, rgba(180,80,255,0.10) 0%, transparent 60%);
-        z-index: -2;
+        content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
+                          radial-gradient(1.5px 1.5px at 40px 70px, rgba(255,255,255,0.95), transparent),
+                          radial-gradient(1px 1px at 90px 40px, #aaddff, transparent),
+                          radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent),
+                          radial-gradient(1px 1px at 300px 100px, #ffffff, transparent);
+        background-size: 500px 300px; background-repeat: repeat; opacity: 0.7; z-index: 0; pointer-events: none;
     }
     .stApp::after {
-        content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: radial-gradient(#ffffff 1px, transparent 1px),
-                          radial-gradient(#88ddff 1px, transparent 2px);
-        background-size: 80px 80px, 160px 160px;
-        opacity: 0.4; z-index: -1; pointer-events: none;
+        content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at 20% 30%, rgba(0,200,255,0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(140,60,255,0.10) 0%, transparent 55%);
+        z-index: 0; pointer-events: none;
     }
+    .main .block-container { position: relative; z-index: 1; }
     h1, h2, h3 { color: #00f0ff !important; }
     .stApp, p, span, div, label { color: #ffffff !important; }
-    section[data-testid="stSidebar"] { background: #05080f; }
+    [data-testid="stDataFrame"], [data-testid="stDataFrame"] *, table, th, td { color: #000000 !important; }
+    section[data-testid="stSidebar"] { background: #05080f !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -41,7 +46,6 @@ SAMPLE_DX = [
     {"Spotter": "N7QXQ", "DX": "3Y0J", "Freq": "7.074", "Mode": "FT8", "Time": "14:15Z", "Note": "Bouvet"},
     {"Spotter": "K9CT", "DX": "VU4T", "Freq": "28.445", "Mode": "SSB", "Time": "14:05Z", "Note": "Andaman"},
 ]
-
 SAMPLE_POTA = [
     {"Park": "US-0065", "Name": "Acadia NP", "Activator": "K1ABC", "Freq": "14.285", "Mode": "SSB", "Spots": 12},
     {"Park": "US-0015", "Name": "Yellowstone NP", "Activator": "W7XYZ", "Freq": "7.190", "Mode": "SSB", "Spots": 8},
@@ -49,23 +53,11 @@ SAMPLE_POTA = [
 ]
 
 tab1, tab2, tab3 = st.tabs(["DX Cluster Spots", "POTA Activators", "APRS Map"])
-
 with tab1:
-    st.subheader("Recent DX Spots (sample)")
     st.dataframe(pd.DataFrame(SAMPLE_DX), use_container_width=True, hide_index=True)
-    st.info("In production: connect to a live DX cluster feed")
-
 with tab2:
-    st.subheader("Parks on the Air")
     st.dataframe(pd.DataFrame(SAMPLE_POTA), use_container_width=True, hide_index=True)
     st.markdown("[Official POTA](https://pota.app)")
-
 with tab3:
-    st.subheader("APRS Snapshot (demo)")
-    aprs = pd.DataFrame({
-        "lat": [41.76, 41.30, 41.55, 41.80],
-        "lon": [-72.67, -72.92, -72.65, -72.55],
-        "call": ["W1AW-1", "K1CT-9", "N1ABC-7", "W1STR-2"]
-    })
+    aprs = pd.DataFrame({"lat": [41.76, 41.30, 41.55, 41.80], "lon": [-72.67, -72.92, -72.65, -72.55], "call": ["W1AW-1", "K1CT-9", "N1ABC-7", "W1STR-2"]})
     st.map(aprs, size=20)
-    st.dataframe(aprs, hide_index=True)

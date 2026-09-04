@@ -7,23 +7,27 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 
 st.markdown("""
 <style>
-    .stApp { background: #05080f; color: #ffffff; }
+    .stApp { background-color: #05080f !important; color: #ffffff; }
+    [data-testid="stAppViewContainer"], .main { background: transparent !important; }
     .stApp::before {
-        content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle at 30% 20%, rgba(0,240,255,0.12) 0%, transparent 50%),
-                    radial-gradient(circle at 70% 70%, rgba(180,80,255,0.10) 0%, transparent 60%);
-        z-index: -2;
+        content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
+                          radial-gradient(1.5px 1.5px at 40px 70px, rgba(255,255,255,0.95), transparent),
+                          radial-gradient(1px 1px at 90px 40px, #aaddff, transparent),
+                          radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent);
+        background-size: 500px 300px; background-repeat: repeat; opacity: 0.7; z-index: 0; pointer-events: none;
     }
     .stApp::after {
-        content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: radial-gradient(#ffffff 1px, transparent 1px),
-                          radial-gradient(#88ddff 1px, transparent 2px);
-        background-size: 80px 80px, 160px 160px;
-        opacity: 0.4; z-index: -1; pointer-events: none;
+        content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at 20% 30%, rgba(0,200,255,0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(140,60,255,0.10) 0%, transparent 55%);
+        z-index: 0; pointer-events: none;
     }
+    .main .block-container { position: relative; z-index: 1; }
     h1, h2, h3 { color: #00f0ff !important; }
     .stApp, p, span, div, label { color: #ffffff !important; }
-    section[data-testid="stSidebar"] { background: #05080f; }
+    [data-testid="stDataFrame"], table, th, td, .stForm, .stForm * { color: #000000 !important; }
+    section[data-testid="stSidebar"] { background: #05080f !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -41,8 +45,7 @@ with tab1:
     call = st.text_input("Enter US callsign", placeholder="W1AW").strip().upper()
     if st.button("Lookup", type="primary") and call:
         try:
-            r = requests.get(f"https://callook.info/{call}/json", timeout=6)
-            data = r.json()
+            data = requests.get(f"https://callook.info/{call}/json", timeout=6).json()
             if data.get("status") == "VALID":
                 st.success(f"**{data['current']['callsign']}** is valid")
                 c1, c2 = st.columns(2)
@@ -52,14 +55,12 @@ with tab1:
                 with c2:
                     loc = data.get("location", {})
                     st.write("**Grid:**", loc.get("gridsquare", "—"))
-                    st.write("**Location:**", f"{loc.get('latitude')}, {loc.get('longitude')}")
             else:
-                st.warning(f"Status: {data.get('status')}")
+                st.warning(data.get("status"))
         except Exception as e:
-            st.error(f"Lookup failed: {e}")
+            st.error(str(e))
 
 with tab2:
-    st.subheader("Technician Sample Questions")
     questions = [
         {"q": "What is the ITU phonetic for 'B'?", "choices": ["Baker", "Bravo", "Boston", "Beta"], "answer": 1},
         {"q": "Max power on 70 cm for Technician?", "choices": ["50 W", "200 W", "1500 W", "25 W"], "answer": 2},
@@ -69,11 +70,9 @@ with tab2:
         st.session_state.q_idx = 0
         st.session_state.score = 0
         st.session_state.total = 0
-
     q = questions[st.session_state.q_idx % len(questions)]
     st.write(f"**Question:** {q['q']}")
     choice = st.radio("Answer", q["choices"], key=f"q{st.session_state.q_idx}")
-
     if st.button("Check Answer"):
         st.session_state.total += 1
         if q["choices"].index(choice) == q["answer"]:
@@ -81,11 +80,9 @@ with tab2:
             st.session_state.score += 1
         else:
             st.error(f"Wrong. Correct: {q['choices'][q['answer']]}")
-
     if st.button("Next Question"):
         st.session_state.q_idx += 1
         st.rerun()
-
     if st.session_state.total:
         st.metric("Score", f"{st.session_state.score}/{st.session_state.total}")
 

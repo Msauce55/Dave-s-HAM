@@ -9,24 +9,32 @@ LOGO_PATH = Path("assets/daves_ham_logo.png")
 
 st.markdown("""
 <style>
-    .stApp { background: #05080f; color: #ffffff; }
+    .stApp { background-color: #05080f !important; color: #ffffff; }
+    [data-testid="stAppViewContainer"], [data-testid="stHeader"], .main { background: transparent !important; }
     .stApp::before {
-        content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle at 25% 20%, rgba(0,240,255,0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 75% 70%, rgba(180,80,255,0.12) 0%, transparent 60%);
-        z-index: -2;
+        content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
+                          radial-gradient(1.5px 1.5px at 40px 70px, rgba(255,255,255,0.95), transparent),
+                          radial-gradient(1px 1px at 90px 40px, rgba(200,240,255,0.9), transparent),
+                          radial-gradient(1.5px 1.5px at 160px 120px, #ffffff, transparent),
+                          radial-gradient(1px 1px at 220px 180px, #aaddff, transparent),
+                          radial-gradient(1.5px 1.5px at 300px 100px, #ffffff, transparent),
+                          radial-gradient(1px 1px at 400px 150px, #88ccff, transparent);
+        background-size: 500px 300px; background-repeat: repeat; opacity: 0.7; z-index: 0; pointer-events: none;
     }
     .stApp::after {
-        content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: radial-gradient(#ffffff 1px, transparent 1px),
-                          radial-gradient(#88ddff 1px, transparent 2px);
-        background-size: 80px 80px, 160px 160px;
-        opacity: 0.4; z-index: -1; pointer-events: none;
+        content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at 20% 30%, rgba(0,200,255,0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(140,60,255,0.10) 0%, transparent 55%);
+        z-index: 0; pointer-events: none;
     }
-    h1, h2, h3 { color: #00f0ff !important; }
+    .main .block-container { position: relative; z-index: 1; }
+    h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
     .stApp, p, span, div, label { color: #ffffff !important; }
-    section[data-testid="stSidebar"] { background: #05080f; }
-    div[data-testid="stMetric"] { background: #0f2344; border: 1px solid #00f0ff55; border-radius: 12px; }
+    [data-testid="stDataFrame"], [data-testid="stDataFrame"] *, table, th, td { color: #000000 !important; }
+    div[data-testid="stMetric"] { background: #0f2344 !important; border: 1px solid #00f0ff55; border-radius: 12px; }
+    div[data-testid="stMetric"] * { color: #ffffff !important; }
+    section[data-testid="stSidebar"] { background: #05080f !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -37,7 +45,6 @@ with col1:
 
 st.markdown("---")
 st.title("☀️ Space Weather & Propagation")
-st.caption("Live data from NOAA Space Weather Prediction Center")
 
 @st.cache_data(ttl=300)
 def fetch_solar():
@@ -53,17 +60,15 @@ def fetch_solar():
             "ssn": daily[-1].get("ssn", "—") if daily else "—",
             "raw_k": k_data[-60:] if k_data else [],
         }
-    except Exception as e:
-        return {"k_index": "—", "sfi": "—", "a_index": "—", "ssn": "—", "raw_k": [], "error": str(e)}
+    except:
+        return {"k_index": "—", "sfi": "—", "a_index": "—", "ssn": "—", "raw_k": []}
 
 solar = fetch_solar()
-
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("Solar Flux (SFI)", solar["sfi"])
 c2.metric("K-Index", solar["k_index"])
 c3.metric("A-Index", solar["a_index"])
 c4.metric("Sunspot Number", solar["ssn"])
-
 st.write(f"**Last K-index update:** `{solar.get('k_time', 'N/A')}`")
 
 if solar.get("raw_k"):
@@ -83,11 +88,6 @@ if k <= 2:
 elif k <= 4:
     st.warning("🟡 Unsettled — mid-latitude paths may be noisy")
 else:
-    st.error("🔴 Storm levels — expect absorption on high-latitude paths")
+    st.error("🔴 Storm levels — expect absorption")
 
-st.markdown("""
-**External Tools**  
-- [VOACAP Online](https://www.voacap.com/hf/)  
-- [KC2G Real-time MUF Map](https://prop.kc2g.com/)  
-- [NOAA SWPC](https://www.swpc.noaa.gov/)
-""")
+st.markdown("- [VOACAP Online](https://www.voacap.com/hf/)  \n- [KC2G MUF Map](https://prop.kc2g.com/)  \n- [NOAA SWPC](https://www.swpc.noaa.gov/)")
