@@ -8,6 +8,7 @@ st.markdown("""
 <style>
     .stApp { background-color: #05080f !important; color: #ffffff; }
     [data-testid="stAppViewContainer"], .main { background: transparent !important; }
+
     .stApp::before {
         content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-image: radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, transparent),
@@ -23,9 +24,11 @@ st.markdown("""
         z-index: 0; pointer-events: none;
     }
     .main .block-container { position: relative; z-index: 1; }
-    h1, h2, h3 { color: #00f0ff !important; }
+
+    h1, h2, h3 { color: #00f0ff !important; text-shadow: 0 0 12px rgba(0,240,255,0.5); }
     .stApp, p, span, div, label { color: #ffffff !important; }
-    section[data-testid="stSidebar"] { background: #05080f !important; }
+
+    section[data-testid="stSidebar"] { background: #05080f !important; border-right: 2px solid #00f0ff33; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -44,65 +47,43 @@ with tab1:
     st.markdown("""
     | Code | Meaning |
     |------|--------|
-    | QTH  | My location is... / What is your location? |
+    | QTH  | My location is... |
     | QRZ  | Who is calling me? |
-    | QSL  | I acknowledge / Can you acknowledge? |
+    | QSL  | I acknowledge receipt |
     | QRT  | I am stopping transmission |
     | QSY  | Change frequency |
     | QRM  | Man-made interference |
-    | QRN  | Natural noise / static |
-    | QSB  | Fading signal |
+    | QRN  | Natural noise |
+    | QSB  | Signal is fading |
     | QRP  | Low power |
     | QRO  | High power |
-    | QRX  | Wait a moment |
     | QRV  | I am ready |
     | QSO  | A contact |
-    | QX  | I am busy |
     """)
 
 with tab2:
     st.subheader("ITU Phonetic Alphabet")
     st.markdown("""
-    A - Alpha  
-    B - Bravo  
-    C - Charlie  
-    D - Delta  
-    E - Echo  
-    F - Foxtrot  
-    G - Golf  
-    H - Hotel  
-    I - India  
-    J - Juliett  
-    K - Kilo  
-    L - Lima  
-    M - Mike  
-    N - November  
-    O - Oscar  
-    P - Papa  
-    Q - Quebec  
-    R - Romeo  
-    S - Sierra  
-    T - Tango  
-    U - Uniform  
-    V - Victor  
-    W - Whiskey  
-    X - X-ray  
-    Y - Yankee  
-    Z - Zulu  
+    **A** - Alpha **B** - Bravo **C** - Charlie **D** - Delta **E** - Echo  
+    **F** - Foxtrot **G** - Golf **H** - Hotel **I** - India **J** - Juliett  
+    **K** - Kilo **L** - Lima **M** - Mike **N** - November **O** - Oscar  
+    **P** - Papa **Q** - Quebec **R** - Romeo **S** - Sierra **T** - Tango  
+    **U** - Uniform **V** - Victor **W** - Whiskey **X** - X-ray  
+    **Y** - Yankee **Z** - Zulu
     """)
 
 with tab3:
     st.subheader("RST System & Common Prosigns")
     st.markdown("""
-    **RST Report**
-    - Readability (1–5)
-    - Strength (1–9)
-    - Tone (1–9) — CW only
+    **RST Report**  
+    - **R**eadability (1–5)  
+    - **S**trength (1–9)  
+    - **T**one (1–9 for CW)
 
-    **Common Prosigns**
-    - AR → End of message
-    - SK → End of contact
-    - BT → Break / separator
-    - KN → Go ahead only
-    - CL → Closing station
+    **Common Prosigns**  
+    - **AR** — End of message  
+    - **SK** — End of contact  
+    - **BT** — Break / separator  
+    - **KN** — Go ahead only to me  
+    - **CL** — Closing station
     """)
