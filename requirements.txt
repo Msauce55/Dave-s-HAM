@@ -2,3 +2,5 @@ streamlit>=1.28.0
 requests
 pandas
 plotly
+datetime
+pathlib
