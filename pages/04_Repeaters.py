@@ -1,201 +1,38 @@
 import streamlit as st
 import pandas as pd
-import streamlit as st
-from pathlib import Path
-import streamlit as st
 from pathlib import Path
 
-# ---------- Page Config ----------
-st.set_page_config(
-    page_title="Dave's Ham",
-    page_icon="📡",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# ---------- Logo + Theme Colors (from the emblem) ----------
-LOGO_PATH = Path("assets/daves_ham_logo.png")
-
-st.markdown("""
-<style>
-    /* Main background - deep navy from the logo */
-    .stApp {
-        background: linear-gradient(180deg, #0a1628 0%, #0d1f3c 50%, #0a1628 100%);
-        color: #e0f7ff;
-    }
-
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #07101f 0%, #0d1f3c 100%);
-        border-right: 1px solid #00c4ff33;
-    }
-
-    /* Headers */
-    h1, h2, h3 {
-        color: #00c4ff !important;
-    }
-
-    /* Metrics */
-    div[data-testid="stMetric"] {
-        background: #13233f;
-        border: 1px solid #00c4ff44;
-        border-radius: 12px;
-        padding: 12px;
-    }
-
-    /* Buttons */
-    .stButton > button {
-        background: linear-gradient(90deg, #00c4ff, #0090cc);
-        color: #0a1628;
-        font-weight: 700;
-        border: none;
-        border-radius: 8px;
-    }
-    .stButton > button:hover {
-        background: linear-gradient(90deg, #ff6b00, #ff8c00);
-        color: white;
-    }
-
-    /* Forms & inputs */
-    .stTextInput input, .stTextArea textarea, .stSelectbox, .stNumberInput {
-        background-color: #13233f !important;
-        color: #e0f7ff !important;
-        border: 1px solid #00c4ff55 !important;
-    }
-
-    /* Dataframes */
-    .stDataFrame {
-        background-color: #0d1f3c;
-    }
-
-    /* Success / Warning boxes */
-    .stSuccess {
-        background-color: #0d3320;
-        border-left: 5px solid #00c4ff;
-    }
-    .stWarning {
-        background-color: #3d2200;
-        border-left: 5px solid #ff6b00;
-    }
-
-    /* Caption / secondary text */
-    .stCaption, small {
-        color: #7dd3fc !important;
-    }
-
-    /* Divider */
-    hr {
-        border-color: #00c4ff33;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# ---------- Logo Header ----------
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), use_container_width=True)
-    else:
-        st.markdown("### 📡 Dave's Ham Amateur Radio")
-        st.caption("Logo not found – place it in assets/daves_ham_logo.png")
-
-st.markdown("<br>", unsafe_allow_html=True)
-# ---------- Page Config ----------
-st.set_page_config(
-    page_title="Dave's Ham",
-    page_icon="📡",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# ---------- Logo + Theme Colors (from the emblem) ----------
-LOGO_PATH = Path("assets/daves_ham_logo.png")
-
-st.markdown("""
-<style>
-    /* Main background - deep navy from the logo */
-    .stApp {
-        background: linear-gradient(180deg, #0a1628 0%, #0d1f3c 50%, #0a1628 100%);
-        color: #e0f7ff;
-    }
-
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #07101f 0%, #0d1f3c 100%);
-        border-right: 1px solid #00c4ff33;
-    }
-
-    /* Headers */
-    h1, h2, h3 {
-        color: #00c4ff !important;
-    }
-
-    /* Metrics */
-    div[data-testid="stMetric"] {
-        background: #13233f;
-        border: 1px solid #00c4ff44;
-        border-radius: 12px;
-        padding: 12px;
-    }
-
-    /* Buttons */
-    .stButton > button {
-        background: linear-gradient(90deg, #00c4ff, #0090cc);
-        color: #0a1628;
-        font-weight: 700;
-        border: none;
-        border-radius: 8px;
-    }
-    .stButton > button:hover {
-        background: linear-gradient(90deg, #ff6b00, #ff8c00);
-        color: white;
-    }
-
-    /* Forms & inputs */
-    .stTextInput input, .stTextArea textarea, .stSelectbox, .stNumberInput {
-        background-color: #13233f !important;
-        color: #e0f7ff !important;
-        border: 1px solid #00c4ff55 !important;
-    }
-
-    /* Dataframes */
-    .stDataFrame {
-        background-color: #0d1f3c;
-    }
-
-    /* Success / Warning boxes */
-    .stSuccess {
-        background-color: #0d3320;
-        border-left: 5px solid #00c4ff;
-    }
-    .stWarning {
-        background-color: #3d2200;
-        border-left: 5px solid #ff6b00;
-    }
-
-    /* Caption / secondary text */
-    .stCaption, small {
-        color: #7dd3fc !important;
-    }
-
-    /* Divider */
-    hr {
-        border-color: #00c4ff33;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# ---------- Logo Header ----------
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), use_container_width=True)
-    else:
-        st.markdown("### 📡 Dave's Ham Amateur Radio")
-        st.caption("Logo not found – place it in assets/daves_ham_logo.png")
-
-st.markdown("<br>", unsafe_allow_html=True)
 st.set_page_config(page_title="Repeaters", page_icon="📶", layout="wide")
+LOGO_PATH = Path("assets/daves_ham_logo.png")
+
+st.markdown("""
+<style>
+    .stApp { background: #05080f; color: #ffffff; }
+    .stApp::before {
+        content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at 30% 20%, rgba(0,240,255,0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 70%, rgba(180,80,255,0.10) 0%, transparent 60%);
+        z-index: -2;
+    }
+    .stApp::after {
+        content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: radial-gradient(#ffffff 1px, transparent 1px),
+                          radial-gradient(#88ddff 1px, transparent 2px);
+        background-size: 80px 80px, 160px 160px;
+        opacity: 0.4; z-index: -1; pointer-events: none;
+    }
+    h1, h2, h3 { color: #00f0ff !important; }
+    .stApp, p, span, div, label { color: #ffffff !important; }
+    section[data-testid="stSidebar"] { background: #05080f; }
+</style>
+""", unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([1.2, 3, 1])
+with col1:
+    if LOGO_PATH.exists():
+        st.image(str(LOGO_PATH), width=160)
+
+st.markdown("---")
 st.title("📶 Repeater & Digital Modes Directory")
 
 SAMPLE_REPEATERS = [
@@ -208,17 +45,16 @@ SAMPLE_REPEATERS = [
 
 search = st.text_input("Search by call, city or frequency")
 df = pd.DataFrame(SAMPLE_REPEATERS)
-
 if search:
     df = df[df.apply(lambda r: search.lower() in str(r).lower(), axis=1)]
 
 st.dataframe(df, use_container_width=True, hide_index=True)
 
 st.subheader("Digital Modes Quick Reference")
-col1, col2 = st.columns(2)
-with col1:
+c1, c2 = st.columns(2)
+with c1:
     st.markdown("**DMR**  \nColor Code usually 1  \nTime Slot 1 or 2")
-    st.markdown("**Yaesu System Fusion**  \nDN / VW modes  \nWires-X rooms")
-with col2:
-    st.markdown("**D-STAR**  \nModules A/B/C  \nReflectors REF/XRF/DCS")
+    st.markdown("**Yaesu System Fusion**  \nDN / VW modes")
+with c2:
+    st.markdown("**D-STAR**  \nModules A/B/C")
     st.markdown("**EchoLink / IRLP**  \nNode numbers")
